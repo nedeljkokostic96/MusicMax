@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="MusicMaxJPA" transaction-type="RESOURCE_LOCAL">
+		<class>model.Author</class>
+		<class>model.Client</class>
+		<class>model.Comment</class>
+		<class>model.Festival</class>
+		<class>model.FestivalComment</class>
+		<class>model.ForumTopic</class>
+		<class>model.FunFact</class>
+		<class>model.Genre</class>
+		<class>model.Grade</class>
+		<class>model.Impression</class>
+		<class>model.Performer</class>
+		<class>model.Role</class>
+		<class>model.Song</class>
+		<class>model.SongHasGenre</class>
+		<class>model.UrlLink</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/music_max"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="ris123"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+		</properties>
+	</persistence-unit>
+</persistence>
