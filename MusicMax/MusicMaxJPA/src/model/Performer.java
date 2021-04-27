@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 
 
@@ -30,6 +33,7 @@ public class Performer implements Serializable {
 
 	//bi-directional many-to-one association to Song
 	@OneToMany(mappedBy="performer")
+	@JsonIgnore
 	private List<Song> songs;
 
 	public Performer() {
