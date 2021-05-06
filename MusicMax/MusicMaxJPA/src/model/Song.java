@@ -2,9 +2,6 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Date;
 import java.util.List;
 
@@ -26,22 +23,23 @@ public class Song implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date released;
 
+	@Column(name="text_song")
+	private String textSong;
+
 	private String title;
 
 	//bi-directional many-to-one association to Grade
 	@OneToMany(mappedBy="song")
-	@JsonIgnore
 	private List<Grade> grades;
 
 	//bi-directional many-to-one association to Impression
 	@OneToMany(mappedBy="song")
-	@JsonIgnore
 	private List<Impression> impressions;
 
-	//bi-directional many-to-one association to Author
+	//bi-directional many-to-one association to Client
 	@ManyToOne
-	@JoinColumn(name="id_author")
-	private Author author;
+	@JoinColumn(name="id_client")
+	private Client client;
 
 	//bi-directional many-to-one association to Performer
 	@ManyToOne
@@ -50,13 +48,21 @@ public class Song implements Serializable {
 
 	//bi-directional many-to-one association to SongHasGenre
 	@OneToMany(mappedBy="song")
-	@JsonIgnore
 	private List<SongHasGenre> songHasGenres;
 
 	//bi-directional many-to-one association to UrlLink
 	@OneToMany(mappedBy="song")
-	@JsonIgnore
 	private List<UrlLink> urlLinks;
+
+	//bi-directional many-to-one association to Creator
+	@ManyToOne
+	@JoinColumn(name="id_author")
+	private Creator creator1;
+
+	//bi-directional many-to-one association to Creator
+	@ManyToOne
+	@JoinColumn(name="id_composer")
+	private Creator creator2;
 
 	public Song() {
 	}
@@ -75,6 +81,14 @@ public class Song implements Serializable {
 
 	public void setReleased(Date released) {
 		this.released = released;
+	}
+
+	public String getTextSong() {
+		return this.textSong;
+	}
+
+	public void setTextSong(String textSong) {
+		this.textSong = textSong;
 	}
 
 	public String getTitle() {
@@ -129,12 +143,12 @@ public class Song implements Serializable {
 		return impression;
 	}
 
-	public Author getAuthor() {
-		return this.author;
+	public Client getClient() {
+		return this.client;
 	}
 
-	public void setAuthor(Author author) {
-		this.author = author;
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	public Performer getPerformer() {
@@ -187,6 +201,22 @@ public class Song implements Serializable {
 		urlLink.setSong(null);
 
 		return urlLink;
+	}
+
+	public Creator getCreator1() {
+		return this.creator1;
+	}
+
+	public void setCreator1(Creator creator1) {
+		this.creator1 = creator1;
+	}
+
+	public Creator getCreator2() {
+		return this.creator2;
+	}
+
+	public void setCreator2(Creator creator2) {
+		this.creator2 = creator2;
 	}
 
 }

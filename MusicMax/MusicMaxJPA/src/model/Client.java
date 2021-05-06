@@ -55,6 +55,10 @@ public class Client implements Serializable {
 	@OneToMany(mappedBy="client")
 	private List<ForumTopic> forumTopics;
 
+	//bi-directional many-to-one association to FunFact
+	@OneToMany(mappedBy="client")
+	private List<FunFact> funFacts;
+
 	//bi-directional many-to-one association to Grade
 	@OneToMany(mappedBy="client")
 	private List<Grade> grades;
@@ -62,6 +66,10 @@ public class Client implements Serializable {
 	//bi-directional many-to-one association to Impression
 	@OneToMany(mappedBy="client")
 	private List<Impression> impressions;
+
+	//bi-directional many-to-one association to Song
+	@OneToMany(mappedBy="client")
+	private List<Song> songs;
 
 	public Client() {
 	}
@@ -210,6 +218,28 @@ public class Client implements Serializable {
 		return forumTopic;
 	}
 
+	public List<FunFact> getFunFacts() {
+		return this.funFacts;
+	}
+
+	public void setFunFacts(List<FunFact> funFacts) {
+		this.funFacts = funFacts;
+	}
+
+	public FunFact addFunFact(FunFact funFact) {
+		getFunFacts().add(funFact);
+		funFact.setClient(this);
+
+		return funFact;
+	}
+
+	public FunFact removeFunFact(FunFact funFact) {
+		getFunFacts().remove(funFact);
+		funFact.setClient(null);
+
+		return funFact;
+	}
+
 	public List<Grade> getGrades() {
 		return this.grades;
 	}
@@ -252,6 +282,28 @@ public class Client implements Serializable {
 		impression.setClient(null);
 
 		return impression;
+	}
+
+	public List<Song> getSongs() {
+		return this.songs;
+	}
+
+	public void setSongs(List<Song> songs) {
+		this.songs = songs;
+	}
+
+	public Song addSong(Song song) {
+		getSongs().add(song);
+		song.setClient(this);
+
+		return song;
+	}
+
+	public Song removeSong(Song song) {
+		getSongs().remove(song);
+		song.setClient(null);
+
+		return song;
 	}
 
 }

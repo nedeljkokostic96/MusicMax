@@ -22,6 +22,11 @@ public class FunFact implements Serializable {
 
 	private String text;
 
+	//bi-directional many-to-one association to Client
+	@ManyToOne
+	@JoinColumn(name="id_administrator")
+	private Client client;
+
 	//bi-directional many-to-one association to UrlLink
 	@OneToMany(mappedBy="funFact")
 	private List<UrlLink> urlLinks;
@@ -43,6 +48,14 @@ public class FunFact implements Serializable {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public Client getClient() {
+		return this.client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
 	public List<UrlLink> getUrlLinks() {

@@ -1,2 +1,6 @@
 /.metadata/
 /MusicMaxWEB/bin/
+/MusicMaxJPA/.classpath/
+/MusicMaxJPA/.settings/org.eclipse.wst.common.project.facet.core.xml
+/MusicMaxJPA/target/classes/META-INF/MANIFEST.MF
+/MusicMaxJPA/target/classes/META-INF/maven/MusicMaxJPA/MusicMaxJPA/pom.properties
