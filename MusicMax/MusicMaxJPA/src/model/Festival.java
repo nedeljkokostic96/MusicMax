@@ -31,7 +31,7 @@ public class Festival implements Serializable {
 
 	//bi-directional many-to-one association to Client
 	@ManyToOne
-	@JoinColumn(name="id_admin")
+	@JoinColumn(name="id_administrator")
 	private Client client;
 
 	//bi-directional many-to-one association to FestivalComment

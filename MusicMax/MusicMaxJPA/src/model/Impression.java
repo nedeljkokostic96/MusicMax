@@ -27,6 +27,7 @@ public class Impression implements Serializable {
 
 	//bi-directional many-to-one association to Song
 	@ManyToOne
+	@JoinColumn(name="id_song")
 	private Song song;
 
 	public Impression() {
