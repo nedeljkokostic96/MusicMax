@@ -21,4 +21,10 @@ public class SongController {
 		return songRepository.findAll();
 	}
 	
+	@GetMapping(value = "/byTitle")
+	public List<Song> getSongByTitle(){
+		System.out.println("Hi");
+		return songRepository.findByTitle("Give into me");
+	}
+	
 }
