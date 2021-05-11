@@ -24,10 +24,14 @@ public class SongController {
 	public List<Song> getAllSongs() {
 		return songRepository.findAll();
 	}
-	
 	@GetMapping(value = "songs/genre")
 	public List<Song> getSongsByGenre(String idGenreSTR) {
 		return songService.getSongsByGenre(idGenreSTR);
+  }
+	@GetMapping(value = "/byTitle")
+	public List<Song> getSongByTitle(){
+		System.out.println("Hi");
+		return songRepository.findByTitle("Give into me");
 	}
 	
 }

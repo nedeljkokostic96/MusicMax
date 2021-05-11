@@ -7,3 +7,4 @@ import model.Impression;
 public interface ImpressionRepository extends JpaRepository<Impression, Integer> {
 
 }
+
