@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musicmax.demo.repository.SongRepository;
+import com.musicmax.demo.service.SongService;
 
 import model.Song;
 
@@ -14,11 +15,19 @@ import model.Song;
 public class SongController {
 
 	@Autowired
+	private SongService songService;
+	
+	@Autowired
 	private SongRepository songRepository;
 
 	@GetMapping(value = "/songs")
 	public List<Song> getAllSongs() {
 		return songRepository.findAll();
+	}
+	
+	@GetMapping(value = "songs/genre")
+	public List<Song> getSongsByGenre(String idGenreSTR) {
+		return songService.getSongsByGenre(idGenreSTR);
 	}
 	
 }
