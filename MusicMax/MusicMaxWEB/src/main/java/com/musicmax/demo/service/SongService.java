@@ -7,19 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.musicmax.demo.repository.CreatorRepository;
 import com.musicmax.demo.repository.SongRepository;
 import com.musicmax.demo.util.Constants;
 import com.musicmax.demo.util.DateConverter;
 
+import model.Creator;
 import model.Song;
 
 @Service
 public class SongService {
 
-	
 	@Autowired
 	private SongRepository songRepository;
-	
+
+	@Autowired
+	private CreatorRepository creatorRepository;
+
 	public List<Song> getSongsByGenre(@RequestParam(value = "idGenreSTR") String idGenreSTR) {
 		Integer idGenre;
 		try {
@@ -29,11 +33,18 @@ public class SongService {
 		}
 		return songRepository.findByGenre(idGenre);
 	}
-	
+
 	public List<Song> getSongsByYear(@RequestParam(value = "year") String year) {
-		Date dateStart = DateConverter.parseDate(year + Constants.DATE_SEPARATOR + "01" + Constants.DATE_SEPARATOR + "01");
-		Date dateEnd = DateConverter.parseDate(year + Constants.DATE_SEPARATOR + "12" + Constants.DATE_SEPARATOR + "31");
+		Date dateStart = DateConverter
+				.parseDate(year + Constants.DATE_SEPARATOR + "01" + Constants.DATE_SEPARATOR + "01");
+		Date dateEnd = DateConverter
+				.parseDate(year + Constants.DATE_SEPARATOR + "12" + Constants.DATE_SEPARATOR + "31");
 		return songRepository.findSongsByYear(dateStart, dateEnd);
 	}
-	
+
+	public List<Song> getSongsByComposer(@RequestParam(value = "composerID") String composerID) {
+		Creator composer = creatorRepository.findById(Integer.parseInt(composerID)).get();
+		return songRepository.findByComposer(composer);
+	}
+
 }

@@ -41,4 +41,9 @@ public class SongController {
 		return songRepository.findByTitle("Give into me");
 	}
 
+	@GetMapping(value = "songs/composer")
+	public List<Song> getSongsByComposer(String composerID) {
+		return songService.getSongsByComposer(composerID);
+	}
+
 }

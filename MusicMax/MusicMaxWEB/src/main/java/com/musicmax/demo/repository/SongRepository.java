@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import model.Creator;
 import model.Song;
 
 public interface SongRepository extends JpaRepository<Song, Integer> {
@@ -19,4 +20,7 @@ public interface SongRepository extends JpaRepository<Song, Integer> {
 
 	@Query("SELECT s from Song s WHERE s.released BETWEEN :dateStart AND :dateEnd")
 	public List<Song> findSongsByYear(@Param("dateStart") Date dateStart, @Param("dateEnd") Date dateEnd);
+
+	@Query("select s from Song s where s.creator2 = :composer")
+	public List<Song> findByComposer(@Param("composer") Creator composer);
 }
