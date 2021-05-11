@@ -47,4 +47,9 @@ public class SongService {
 		return songRepository.findByComposer(composer);
 	}
 
+	public List<Song> getSongsByAuthor(@RequestParam(value = "authorID") String authorID) {
+		Creator author = creatorRepository.findById(Integer.parseInt(authorID)).get();
+		return songRepository.findByAuthor(author);
+	}
+
 }

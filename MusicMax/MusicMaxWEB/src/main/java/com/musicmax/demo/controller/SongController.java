@@ -30,6 +30,11 @@ public class SongController {
 		return songService.getSongsByGenre(idGenreSTR);
 	}
 
+	@GetMapping(value = "songs/author")
+	public List<Song> getSongsByAuthor(String authorID) {
+		return songService.getSongsByAuthor(authorID);
+	}
+
 	@GetMapping(value = "songs/year")
 	public List<Song> getSongsByYear(String year) {
 		return songService.getSongsByYear(year);
