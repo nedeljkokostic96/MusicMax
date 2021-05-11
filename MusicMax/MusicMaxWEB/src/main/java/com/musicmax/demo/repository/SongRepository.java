@@ -23,4 +23,7 @@ public interface SongRepository extends JpaRepository<Song, Integer> {
 
 	@Query("select s from Song s where s.creator2 = :composer")
 	public List<Song> findByComposer(@Param("composer") Creator composer);
+
+	@Query("select s from Song s where s.creator1 = :author")
+	public List<Song> findByAuthor(@Param("author") Creator author);
 }
