@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.musicmax.demo.repository.CreatorRepository;
+import com.musicmax.demo.repository.PerformerRepository;
 import com.musicmax.demo.repository.SongRepository;
 import com.musicmax.demo.util.Constants;
 import com.musicmax.demo.util.DateConverter;
 
 import model.Creator;
+import model.Performer;
 import model.Song;
 
 @Service
@@ -23,6 +25,9 @@ public class SongService {
 
 	@Autowired
 	private CreatorRepository creatorRepository;
+	
+	@Autowired
+	private PerformerRepository performerRepository;
 
 	public List<Song> getSongsByGenre(@RequestParam(value = "idGenreSTR") String idGenreSTR) {
 		Integer idGenre;
@@ -50,6 +55,11 @@ public class SongService {
 	public List<Song> getSongsByAuthor(@RequestParam(value = "authorID") String authorID) {
 		Creator author = creatorRepository.findById(Integer.parseInt(authorID)).get();
 		return songRepository.findByAuthor(author);
+	}
+
+	public List<Song> getSongsByPerformer(@RequestParam(value = "performerID") String performerID) {
+		Performer performer = performerRepository.findById(Integer.parseInt(performerID)).get();
+		return songRepository.findByPerformer(performer);
 	}
 
 }

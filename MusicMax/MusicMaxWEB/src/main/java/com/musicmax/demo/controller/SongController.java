@@ -40,6 +40,11 @@ public class SongController {
 		return songService.getSongsByYear(year);
 	}
 
+	@GetMapping(value = "songs/performer")
+	public List<Song> getSongsByPerformer(String performerID) {
+		return songService.getSongsByPerformer(performerID);
+	}
+
 	@GetMapping(value = "/byTitle")
 	public List<Song> getSongByTitle() {
 		System.out.println("Hi");
