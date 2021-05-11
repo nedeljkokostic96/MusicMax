@@ -1,9 +1,13 @@
 package com.musicmax.demo.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musicmax.demo.repository.SongRepository;
@@ -47,13 +51,17 @@ public class SongController {
 
 	@GetMapping(value = "/byTitle")
 	public List<Song> getSongByTitle() {
-		System.out.println("Hi");
 		return songRepository.findByTitle("Give into me");
 	}
 
 	@GetMapping(value = "songs/composer")
 	public List<Song> getSongsByComposer(String composerID) {
 		return songService.getSongsByComposer(composerID);
+	}
+
+	@PostMapping(value = "/songs", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> saveSong(@RequestBody String json) {
+		return songService.saveSong(json);
 	}
 
 }
