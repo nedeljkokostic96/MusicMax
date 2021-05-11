@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import model.Creator;
+import model.Performer;
 import model.Song;
 
 public interface SongRepository extends JpaRepository<Song, Integer> {
@@ -26,4 +27,7 @@ public interface SongRepository extends JpaRepository<Song, Integer> {
 
 	@Query("select s from Song s where s.creator1 = :author")
 	public List<Song> findByAuthor(@Param("author") Creator author);
+	
+	@Query("select s from Song s where s.performer = :performer")
+	public List<Song> findByPerformer(@Param("performer") Performer performer);
 }
