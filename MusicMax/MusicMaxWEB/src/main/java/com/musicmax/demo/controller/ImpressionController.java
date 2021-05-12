@@ -1,14 +1,9 @@
 package com.musicmax.demo.controller;
 
-
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,7 +41,8 @@ public class ImpressionController {
 
 	@PostMapping(value = "/saveImpression", consumes = "application/json", produces = "application/json")
 	public void saveImpression(@RequestBody String json) throws JsonMappingException, JsonProcessingException {
-		Map values = new ObjectMapper().readValue(json, Map.class);
+		@SuppressWarnings("unchecked")
+		Map<String, Object> values = new ObjectMapper().readValue(json, Map.class);
 		Song song = songRepository.findById((Integer) values.get("idSong")).get();
 		Client client = clientRepository.findById((Integer) values.get("idClient")).get();
 
@@ -59,5 +55,3 @@ public class ImpressionController {
 	}
 
 }
-
-
