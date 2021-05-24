@@ -7,5 +7,5 @@ import com.musicmax.demo.repository.FunFactRepository;
 public class FunFactService {
 
 	@Autowired
-	private FunFactRepository funFactRepository;
+	private FunFactRepository fuFactRepository;
 }
