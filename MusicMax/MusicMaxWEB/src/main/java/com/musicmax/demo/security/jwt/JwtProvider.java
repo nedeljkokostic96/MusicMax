@@ -14,53 +14,48 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.SigningKeyResolver;
+import io.jsonwebtoken.SigningKeyResolverAdapter;
 import io.jsonwebtoken.UnsupportedJwtException;
-
 
 @Component
 public class JwtProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+	private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
 
-    private String jwtSecret = "sdasdsadds5f5dsf65d61f6dsf16s%^#635^%";
+	private String jwtSecret = "sdasdsadds5f5dsf65d61f6dsf16s%^#635^%";
 
-    private int jwtExpiration = 5 * 60 * 60;
+	private int jwtExpiration = 5 * 60 * 60;
 
-    public String generateJwtToken(Authentication authentication) {
+	public String generateJwtToken(Authentication authentication) {
 
-        UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+		UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
 
-        return Jwts.builder()
-		                .setSubject((userPrincipal.getUsername()))
-		                .setIssuedAt(new Date())
-		                .setExpiration(new Date((new Date()).getTime() + jwtExpiration*1000))
-		                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-		                .compact();
-    }
-    
-    public boolean validateJwtToken(String authToken) {
-        try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
-            return true;
-        } catch (SignatureException e) {
-            logger.error("Invalid JWT signature -> Message: {} ", e);
-        } catch (MalformedJwtException e) {
-            logger.error("Invalid JWT token -> Message: {}", e);
-        } catch (ExpiredJwtException e) {
-            logger.error("Expired JWT token -> Message: {}", e);
-        } catch (UnsupportedJwtException e) {
-            logger.error("Unsupported JWT token -> Message: {}", e);
-        } catch (IllegalArgumentException e) {
-            logger.error("JWT claims string is empty -> Message: {}", e);
-        }
-        
-        return false;
-    }
-    
-    public String getEmailFromJwtToken(String token) {
-        return Jwts.parser()
-			                .setSigningKey(jwtSecret)
-			                .parseClaimsJws(token)
-			                .getBody().getSubject();
-    }
+		return Jwts.builder().setSubject((userPrincipal.getEmail())).setIssuedAt(new Date())
+				.setExpiration(new Date((new Date()).getTime() + jwtExpiration * 1000))
+				.signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+	}
+
+	public boolean validateJwtToken(String authToken) {
+		try {
+			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+			return true;
+		} catch (SignatureException e) {
+			logger.error("Invalid JWT signature -> Message: {} ", e);
+		} catch (MalformedJwtException e) {
+			logger.error("Invalid JWT token -> Message: {}", e);
+		} catch (ExpiredJwtException e) {
+			logger.error("Expired JWT token -> Message: {}", e);
+		} catch (UnsupportedJwtException e) {
+			logger.error("Unsupported JWT token -> Message: {}", e);
+		} catch (IllegalArgumentException e) {
+			logger.error("JWT claims string is empty -> Message: {}", e);
+		}
+
+		return false;
+	}
+
+	public String getEmailFromJwtToken(String token) {
+		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+	}
 }

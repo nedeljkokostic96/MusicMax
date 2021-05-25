@@ -24,8 +24,9 @@ public class Festival implements Serializable {
 	@Column(name="date_begin")
 	private Date dateBegin;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="date_end")
-	private String dateEnd;
+	private Date dateEnd;
 
 	private String description;
 
@@ -57,11 +58,11 @@ public class Festival implements Serializable {
 		this.dateBegin = dateBegin;
 	}
 
-	public String getDateEnd() {
+	public Date getDateEnd() {
 		return this.dateEnd;
 	}
 
-	public void setDateEnd(String dateEnd) {
+	public void setDateEnd(Date dateEnd) {
 		this.dateEnd = dateEnd;
 	}
 

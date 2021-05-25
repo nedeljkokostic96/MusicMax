@@ -41,6 +41,16 @@ public class Song implements Serializable {
 	@JoinColumn(name="id_client")
 	private Client client;
 
+	//bi-directional many-to-one association to Creator
+	@ManyToOne
+	@JoinColumn(name="id_author")
+	private Creator creator1;
+
+	//bi-directional many-to-one association to Creator
+	@ManyToOne
+	@JoinColumn(name="id_composer")
+	private Creator creator2;
+
 	//bi-directional many-to-one association to Performer
 	@ManyToOne
 	@JoinColumn(name="id_performer")
@@ -53,16 +63,6 @@ public class Song implements Serializable {
 	//bi-directional many-to-one association to UrlLink
 	@OneToMany(mappedBy="song")
 	private List<UrlLink> urlLinks;
-
-	//bi-directional many-to-one association to Creator
-	@ManyToOne
-	@JoinColumn(name="id_author")
-	private Creator creator1;
-
-	//bi-directional many-to-one association to Creator
-	@ManyToOne
-	@JoinColumn(name="id_composer")
-	private Creator creator2;
 
 	public Song() {
 	}
@@ -151,6 +151,22 @@ public class Song implements Serializable {
 		this.client = client;
 	}
 
+	public Creator getCreator1() {
+		return this.creator1;
+	}
+
+	public void setCreator1(Creator creator1) {
+		this.creator1 = creator1;
+	}
+
+	public Creator getCreator2() {
+		return this.creator2;
+	}
+
+	public void setCreator2(Creator creator2) {
+		this.creator2 = creator2;
+	}
+
 	public Performer getPerformer() {
 		return this.performer;
 	}
@@ -201,22 +217,6 @@ public class Song implements Serializable {
 		urlLink.setSong(null);
 
 		return urlLink;
-	}
-
-	public Creator getCreator1() {
-		return this.creator1;
-	}
-
-	public void setCreator1(Creator creator1) {
-		this.creator1 = creator1;
-	}
-
-	public Creator getCreator2() {
-		return this.creator2;
-	}
-
-	public void setCreator2(Creator creator2) {
-		this.creator2 = creator2;
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +16,7 @@ import com.musicmax.demo.repository.FunFactRepository;
 import model.Client;
 import model.FunFact;
 
-
+@Service
 public class FunFactService {
 
 	@Autowired

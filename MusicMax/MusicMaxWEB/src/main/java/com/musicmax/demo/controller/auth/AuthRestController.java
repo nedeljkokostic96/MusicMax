@@ -63,6 +63,7 @@ public class AuthRestController {
 		if (clientRepository.existsByEmail(signUpRequest.getEmail())) {
 			return new ResponseEntity<String>("Fail -> Email is already in use!", HttpStatus.BAD_REQUEST);
 		}
+		
 
 		// Creating user's account
 		Client client = new Client();
@@ -85,6 +86,7 @@ public class AuthRestController {
 		}
 
 		client.setRole(role);
+		System.out.println(client);
 		clientRepository.save(client);
 
 		return ResponseEntity.ok().body("User registered successfully!");
