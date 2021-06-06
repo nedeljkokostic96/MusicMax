@@ -22,7 +22,7 @@ import model.Impression;
 import model.Song;
 
 @RestController
-@RequestMapping(value = "/impressionController")
+@RequestMapping(value = "/impressions")
 public class ImpressionController {
 
 	@Autowired
@@ -34,12 +34,12 @@ public class ImpressionController {
 	@Autowired
 	private ClientRepository clientRepository;
 
-	@GetMapping(value = "/impressions")
+	@GetMapping()
 	public List<Impression> getImpressions() {
 		return impRepository.findAll();
 	}
 
-	@PostMapping(value = "/saveImpression", consumes = "application/json", produces = "application/json")
+	@PostMapping(consumes = "application/json", produces = "application/json")
 	public void saveImpression(@RequestBody String json) throws JsonMappingException, JsonProcessingException {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> values = new ObjectMapper().readValue(json, Map.class);
