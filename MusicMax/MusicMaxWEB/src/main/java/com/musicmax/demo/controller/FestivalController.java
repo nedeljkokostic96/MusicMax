@@ -24,12 +24,12 @@ public class FestivalController {
 	@Autowired
 	private FestivalService festivalService;
 
-	@PostMapping(value = "/add-festival", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveNewFestival(@RequestBody String json, HttpServletRequest request) {
 		return festivalService.saveFestival(json, request);
 	}
 
-	@GetMapping(value = "")
+	@GetMapping()
 	public List<Festival> getAllFestivals() {
 		return festivalService.getAllFestivals();
 	}
