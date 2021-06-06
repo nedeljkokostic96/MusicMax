@@ -18,7 +18,7 @@ public class ForumTopicController {
 	@Autowired
 	private ForumTopicService forumTopicService;
 	
-	@PostMapping(value = "/topics", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> saveForumTopic(String json, HttpServletRequest request) {
 		return forumTopicService.saveForumTopic(json, request);
 	}
