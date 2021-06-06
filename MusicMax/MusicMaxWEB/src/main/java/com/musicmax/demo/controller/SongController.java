@@ -9,6 +9,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.musicmax.demo.repository.SongRepository;
@@ -17,6 +19,7 @@ import com.musicmax.demo.service.SongService;
 import model.Song;
 
 @RestController
+@RequestMapping(value = "/songs")
 public class SongController {
 
 	@Autowired
@@ -25,42 +28,42 @@ public class SongController {
 	@Autowired
 	private SongRepository songRepository;
 
-	@GetMapping(value = "/songs")
+	@GetMapping()
 	public List<Song> getAllSongs() {
 		return songRepository.findAll();
 	}
 
-	@GetMapping(value = "songs/genre")
+	@GetMapping(value = "/genre/{id}")
 	public List<Song> getSongsByGenre(String idGenreSTR) {
 		return songService.getSongsByGenre(idGenreSTR);
 	}
 
-	@GetMapping(value = "songs/author")
+	@GetMapping(value = "/author/{id}")
 	public List<Song> getSongsByAuthor(String authorID) {
 		return songService.getSongsByAuthor(authorID);
 	}
 
-	@GetMapping(value = "songs/year")
-	public List<Song> getSongsByYear(String year) {
+	@GetMapping()
+	public List<Song> getSongsByYear(@RequestParam(value = "year") String year) {
 		return songService.getSongsByYear(year);
 	}
 
-	@GetMapping(value = "songs/performer")
+	@GetMapping(value = "/performer/{id}")
 	public List<Song> getSongsByPerformer(String performerID) {
 		return songService.getSongsByPerformer(performerID);
 	}
 
-	@GetMapping(value = "/byTitle")
-	public List<Song> getSongByTitle() {
+	@GetMapping()
+	public List<Song> getSongByTitle(@RequestParam(value = "title") String title) {
 		return songRepository.findByTitle("Give into me");
 	}
 
-	@GetMapping(value = "songs/composer")
+	@GetMapping(value = "/composer/{id}")
 	public List<Song> getSongsByComposer(String composerID) {
 		return songService.getSongsByComposer(composerID);
 	}
 
-	@PostMapping(value = "/songs", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> saveSong(@RequestBody String json) {
 		return songService.saveSong(json);
 	}
