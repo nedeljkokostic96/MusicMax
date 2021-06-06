@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.musicmax.demo.service.FunFactService;
 
 @RestController
-@RequestMapping(value = "fun-facts")
+@RequestMapping(value = "/fun-facts")
 public class FunFactController {
 
 	@Autowired
