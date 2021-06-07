@@ -1,57 +1,36 @@
 package com.musicmax.demo.controller;
 
-import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musicmax.demo.repository.ClientRepository;
-import com.musicmax.demo.repository.ImpressionRepository;
-import com.musicmax.demo.repository.SongRepository;
-
-import model.Client;
-import model.Impression;
-import model.Song;
+import com.musicmax.demo.message.request.ImpressionForm;
+import com.musicmax.demo.service.ImpressionService;
 
 @RestController
 @RequestMapping(value = "/impressions")
 public class ImpressionController {
 
-	@Autowired
-	private ImpressionRepository impRepository;
 
 	@Autowired
-	private SongRepository songRepository;
-
-	@Autowired
-	private ClientRepository clientRepository;
-
+	private ImpressionService impressionService;
+	
 	@GetMapping()
-	public List<Impression> getImpressions() {
-		return impRepository.findAll();
+	public ResponseEntity<?> getImpressions() {
+		return impressionService.findAllImpressions();
 	}
 
 	@PostMapping(consumes = "application/json", produces = "application/json")
-	public void saveImpression(@RequestBody String json) throws JsonMappingException, JsonProcessingException {
-		@SuppressWarnings("unchecked")
-		Map<String, Object> values = new ObjectMapper().readValue(json, Map.class);
-		Song song = songRepository.findById((Integer) values.get("idSong")).get();
-		Client client = clientRepository.findById((Integer) values.get("idClient")).get();
-
-		Impression newImpression = new Impression();
-		newImpression.setText((String) values.get("textImpression"));
-		newImpression.setClient(client);
-		newImpression.setSong(song);
-
-		impRepository.save(newImpression);
+	public ResponseEntity<?> saveImpression(@Valid @RequestBody ImpressionForm data, HttpServletRequest request) {
+		return impressionService.saveNewImpression(data, request);
 	}
 
 }
