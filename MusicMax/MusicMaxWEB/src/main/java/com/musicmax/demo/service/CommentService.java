@@ -7,10 +7,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.musicmax.demo.message.request.CommentForm;
 import com.musicmax.demo.repository.ClientRepository;
 import com.musicmax.demo.repository.CommentRepository;
 import com.musicmax.demo.repository.ForumTopicRepository;
@@ -33,40 +35,24 @@ public class CommentService {
 	@Autowired
 	private ClientParserService clientParserService;
 	
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> saveComment(String json, HttpServletRequest request) {
-		
-		Map<String, Object> values;
-		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("status", false);
-		
-		try {
-			values = new ObjectMapper().readValue(json, Map.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return response;
-		}
-		
-		String dateSTR = (String) values.get("date");
+	public ResponseEntity<?> saveComment(CommentForm commentFormData, HttpServletRequest request) {
 
-		Date date = DateConverter.parseDate(dateSTR);
+		Date date = DateConverter.parseDate(commentFormData.getDate());
 		
-		
-		ForumTopic forumTopic = forumTopicRepository.findById((Integer) values.get("idForumTopic")).get();
+		ForumTopic forumTopic = forumTopicRepository.findById(commentFormData.getIdForumTopic()).get();
 		Client client = clientParserService.parseClientFromJWT(request);
 		
 		Comment newComment = new Comment();
-		newComment.setComment((String) values.get("textComment"));
+		newComment.setComment(commentFormData.getTextComment());
 		newComment.setForumTopic(forumTopic);
-		newComment.setLikes((Integer) values.get("likes"));
-		newComment.setLikes((Integer) values.get("unlikes"));
+		newComment.setLikes(0);//starting number of likes for comment
+		newComment.setLikes(0);//stasting nubmer of unlikes for comment
 		newComment.setDate(date);
 		newComment.setClient(client);
 
 		Comment saved = commentRepository.save(newComment);
 
-		response.put("status", saved != null);
-		return response;
+		return saved != null ? ResponseEntity.ok("Added new coment!") : ResponseEntity.badRequest().body("Error due adding new comment!");
 	}
 
 }
