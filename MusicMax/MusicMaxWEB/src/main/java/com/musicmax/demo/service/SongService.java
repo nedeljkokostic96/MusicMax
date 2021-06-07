@@ -1,17 +1,16 @@
 package com.musicmax.demo.service;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musicmax.demo.repository.ClientRepository;
+import com.musicmax.demo.message.request.SongForm;
 import com.musicmax.demo.repository.CreatorRepository;
 import com.musicmax.demo.repository.PerformerRepository;
 import com.musicmax.demo.repository.SongRepository;
@@ -34,9 +33,9 @@ public class SongService {
 
 	@Autowired
 	private PerformerRepository performerRepository;
-	
+
 	@Autowired
-	private ClientRepository clientRepository;
+	private ClientParserService clientParserService;
 
 	public List<Song> getSongsByGenre(@RequestParam(value = "idGenreSTR") String idGenreSTR) {
 		Integer idGenre;
@@ -71,28 +70,15 @@ public class SongService {
 		return songRepository.findByPerformer(performer);
 	}
 
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> saveSong(String json) {
-		
-		Map<String, Object> values;
-		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("status", false);
-		
-		try {
-			values = new ObjectMapper().readValue(json, Map.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return response;
-		}
-		
-		String dateSTR = (String) values.get("releasedDate");
+	public ResponseEntity<?> saveSong(SongForm data, HttpServletRequest request) {
 
-		Date releasedDate = DateConverter.parseDate(dateSTR);
+		Client client = clientParserService.parseClientFromJWT(request);
 
-		Creator author = creatorRepository.findById((Integer) values.get("idAuthor")).get();
-		Creator composer = creatorRepository.findById((Integer) values.get("idComposer")).get();
-		Client client = clientRepository.findById((Integer) values.get("idClient")).get();
-		Performer perfomer = performerRepository.findById((Integer) values.get("idPerformer")).get();
+		Date releasedDate = DateConverter.parseDate(data.getDate());
+
+		Creator author = creatorRepository.findById(data.getIdAuthor()).get();
+		Creator composer = creatorRepository.findById(data.getIdComposer()).get();
+		Performer perfomer = performerRepository.findById(data.getIdPerformer()).get();
 
 		Song newSong = new Song();
 		newSong.setClient(client);
@@ -100,13 +86,13 @@ public class SongService {
 		newSong.setCreator2(composer);
 		newSong.setPerformer(perfomer);
 		newSong.setReleased(releasedDate);
-		newSong.setTitle((String) values.get("titleSong"));
-		newSong.setTextSong((String) values.get("textSong"));
+		newSong.setTitle(data.getTitle());
+		newSong.setTextSong(data.getText());
 
 		Song saved = songRepository.save(newSong);
 
-		response.put("status", saved != null);
-		return response;
+		return saved != null ? ResponseEntity.ok("Added new song!")
+				: ResponseEntity.badRequest().body("Adding new song failed!");
 	}
 
 }
