@@ -14,6 +14,8 @@ public class CommentForm {
 	@Size(max = 1500)
 	private String textComment;
 
+	private int idCommentReplay;
+
 	public String getDate() {
 		return date;
 	}
@@ -37,4 +39,13 @@ public class CommentForm {
 	public void setTextComment(String textComment) {
 		this.textComment = textComment;
 	}
+
+	public int getIdCommentReplay() {
+		return idCommentReplay;
+	}
+
+	public void setIdCommentReplay(int idCommentReplay) {
+		this.idCommentReplay = idCommentReplay;
+	}
+
 }

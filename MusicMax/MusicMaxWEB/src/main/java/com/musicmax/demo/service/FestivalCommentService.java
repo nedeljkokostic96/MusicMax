@@ -1,14 +1,12 @@
 package com.musicmax.demo.service;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musicmax.demo.repository.ClientRepository;
+import com.musicmax.demo.message.request.FestivalCommentForm;
 import com.musicmax.demo.repository.FestivalCommentRepository;
 import com.musicmax.demo.repository.FestivalRepository;
 
@@ -18,41 +16,26 @@ import model.FestivalComment;
 
 @Service
 public class FestivalCommentService {
-	
+
 	@Autowired
 	private FestivalCommentRepository festivalCommentRepository;
-	
-	@Autowired
-	private ClientRepository clientRepository;
-	
+
 	@Autowired
 	private FestivalRepository festivalRepository;
-	
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> saveFestivalComment(String json) {
 
-		Map<String, Object> values;
-		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("status", false);
+	@Autowired
+	private ClientParserService clientParserService;
 
-		try {
-			values = new ObjectMapper().readValue(json, Map.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return response;
-		}
-
-		Client client = clientRepository.findById((Integer) values.get("idClient")).get();
-		Festival festival =festivalRepository.findById((Integer) values.get("idFestival")).get();
-		
+	public ResponseEntity<?> saveFestivalComment(FestivalCommentForm data, HttpServletRequest request) {
+		Client client = clientParserService.parseClientFromJWT(request);
+		Festival festival = festivalRepository.findById(data.getIdFestival()).get();
 		FestivalComment newFestivalComment = new FestivalComment();
 		newFestivalComment.setClient(client);
 		newFestivalComment.setFestival(festival);
-		newFestivalComment.setText((String) values.get("textComment"));
-		
-		FestivalComment saved = festivalCommentRepository.save(newFestivalComment);
+		newFestivalComment.setText(data.getText());
 
-		response.put("status", saved != null);
-		return response;
+		FestivalComment saved = festivalCommentRepository.save(newFestivalComment);
+		return saved != null ? ResponseEntity.ok("Added new comment for festival!")
+				: ResponseEntity.badRequest().body("Adding new comment for festival failed!");
 	}
 }
