@@ -43,7 +43,7 @@ public class SongController {
 		return songService.getSongsByAuthor(authorID);
 	}
 
-	@GetMapping()
+	@GetMapping(value = "/year")
 	public List<Song> getSongsByYear(@RequestParam(value = "year") String year) {
 		return songService.getSongsByYear(year);
 	}
@@ -53,7 +53,7 @@ public class SongController {
 		return songService.getSongsByPerformer(performerID);
 	}
 
-	@GetMapping()
+	@GetMapping(value = "/title")
 	public List<Song> getSongByTitle(@RequestParam(value = "title") String title) {
 		return songRepository.findByTitle("Give into me");
 	}
