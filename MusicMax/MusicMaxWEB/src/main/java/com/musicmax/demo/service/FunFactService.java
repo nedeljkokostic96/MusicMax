@@ -1,17 +1,13 @@
 package com.musicmax.demo.service;
 
-
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musicmax.demo.repository.ClientRepository;
+import com.musicmax.demo.message.request.FunFactForm;
 import com.musicmax.demo.repository.FunFactRepository;
-
 
 import model.Client;
 import model.FunFact;
@@ -23,31 +19,20 @@ public class FunFactService {
 	private FunFactRepository funFactRepository;
 
 	@Autowired
-	private ClientRepository clientRepository;
+	private ClientParserService clientParserService;
 
 	@SuppressWarnings("unchecked")
-	public Map<String, Object> saveFunFact(String json) {
+	public ResponseEntity<?> saveFunFact(FunFactForm data, HttpServletRequest request) {
 
-		Map<String, Object> values;
-		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("status", false);
-
-		try {
-			values = new ObjectMapper().readValue(json, Map.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return response;
+		Client client = clientParserService.parseClientFromJWT(request);
+		if (client.getRole().getTitle().equals("user")) {
+			return ResponseEntity.badRequest().body("User has no rights to add new fun fact!!!");
 		}
-
-		Client administrator = clientRepository.findById((Integer) values.get("idAdministrator")).get();
-
 		FunFact newFunFact = new FunFact();
-		newFunFact.setClient(administrator);
-		newFunFact.setText((String) values.get("textFunFact"));
-
+		newFunFact.setClient(client);
+		newFunFact.setText(data.getText());
 		FunFact saved = funFactRepository.save(newFunFact);
-
-		response.put("status", saved != null);
-		return response;
+		return saved != null ? ResponseEntity.ok("Added new fun fact!")
+				: ResponseEntity.badRequest().body("User has no rights to add new fun fact!!!");
 	}
 }
