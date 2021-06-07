@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +23,7 @@ public class FileService {
 
 	public final static String FILE_LOCATION = "D:/LocalServerStorage/";
 
-	public Map<String, Object> uploadFile(MultipartFile file) {
+	public ResponseEntity<?> uploadFile(MultipartFile file) {
 
 		Map<String, Object> response = new HashMap<String, Object>();
 		response.put("status", false);
@@ -34,10 +35,10 @@ public class FileService {
 			fileOutputStream = new FileOutputStream(convertFile);
 			fileOutputStream.write(file.getBytes());
 			response.put("status", saveFileLocation(FILE_LOCATION + file.getOriginalFilename()));
-			return response;
+			return ResponseEntity.ok("File uploaded!");
 		} catch (IOException e) {
 			e.printStackTrace();
-			return response;
+			return ResponseEntity.badRequest().body("Error due uploading file!");
 		} finally {
 			if (fileOutputStream != null) {
 				try {

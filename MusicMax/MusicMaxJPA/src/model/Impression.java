@@ -3,6 +3,8 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the impression database table.
@@ -27,6 +29,7 @@ public class Impression implements Serializable {
 
 	//bi-directional many-to-one association to Song
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="id_song")
 	private Song song;
 

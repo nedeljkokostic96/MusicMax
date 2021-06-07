@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.List;
 
@@ -41,34 +44,42 @@ public class Client implements Serializable {
 
 	//bi-directional many-to-one association to Comment
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<Comment> comments;
 
 	//bi-directional many-to-one association to Festival
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<Festival> festivals;
 
 	//bi-directional many-to-one association to FestivalComment
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<FestivalComment> festivalComments;
 
 	//bi-directional many-to-one association to ForumTopic
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<ForumTopic> forumTopics;
 
 	//bi-directional many-to-one association to FunFact
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<FunFact> funFacts;
 
 	//bi-directional many-to-one association to Grade
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<Grade> grades;
 
 	//bi-directional many-to-one association to Impression
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<Impression> impressions;
 
 	//bi-directional many-to-one association to Song
 	@OneToMany(mappedBy="client")
+	@JsonIgnore
 	private List<Song> songs;
 
 	public Client() {
