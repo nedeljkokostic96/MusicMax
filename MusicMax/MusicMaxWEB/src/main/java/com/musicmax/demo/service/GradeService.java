@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -32,19 +34,15 @@ public class GradeService {
 	private ClientParserService clientParserService;
 	
 	 @SuppressWarnings("unchecked")
-	public Map<String, Object> saveGrade(String json, HttpServletRequest request) {
+	public  ResponseEntity<String> saveGrade(String json, HttpServletRequest request) {
 		
-		Map<String, Object> values;
-		Map<String, Object> response = new HashMap<String, Object>();
-		response.put("status", false);
-		
-		try {
-			values = new ObjectMapper().readValue(json, Map.class);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return response;
-		}
-		
+			Map<String, Object> values = new HashMap<String, Object>();
+			try {
+				values = new ObjectMapper().readValue(json, Map.class);
+			} catch (JsonProcessingException e) {
+				e.printStackTrace();
+			}
+			
 		String dateSTR = (String) values.get("date");
 
 		Date date = DateConverter.parseDate(dateSTR);
@@ -58,8 +56,7 @@ public class GradeService {
 		newGrade.setClient(client);
 		newGrade.setSong(song);
 		Grade saved = gradeRepository.save(newGrade);
-		response.put("status", saved != null);
-		return response;
+		return new ResponseEntity<String>(saved != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST);
 	}
 
 	
