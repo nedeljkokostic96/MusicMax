@@ -1,5 +1,7 @@
 package com.musicmax.demo.service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +36,10 @@ public class FunFactService {
 		FunFact saved = funFactRepository.save(newFunFact);
 		return saved != null ? ResponseEntity.ok("Added new fun fact!")
 				: ResponseEntity.badRequest().body("User has no rights to add new fun fact!!!");
+	}
+
+	public ResponseEntity<?> getAllFunFacts() {
+		List<FunFact> response = funFactRepository.findAll();
+		return ResponseEntity.ok(response);
 	}
 }
