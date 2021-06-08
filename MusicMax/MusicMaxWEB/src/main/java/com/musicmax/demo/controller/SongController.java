@@ -71,4 +71,9 @@ public class SongController {
 		return songService.saveSong(data, request);
 	}
 
+	@GetMapping(value = "/best-graded-song", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> getBestGradedSongLastMonth() {
+		return songService.getBestGradedSongLastMonth();
+	}
+	
 }

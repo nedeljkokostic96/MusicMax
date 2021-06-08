@@ -33,38 +33,46 @@ public class Song implements Serializable {
 
 	//bi-directional many-to-one association to Grade
 	@OneToMany(mappedBy="song")
+	@JsonIgnore
 	private List<Grade> grades;
 
 	//bi-directional many-to-one association to Impression
 	@OneToMany(mappedBy="song")
+	@JsonIgnore
 	private List<Impression> impressions;
 
 	//bi-directional many-to-one association to Client
 	@ManyToOne
 	@JoinColumn(name="id_client")
+	@JsonIgnore
 	private Client client;
 
 	//bi-directional many-to-one association to Creator
 	@ManyToOne
 	@JoinColumn(name="id_author")
+	@JsonIgnore
 	private Creator creator1;
 
 	//bi-directional many-to-one association to Creator
 	@ManyToOne
 	@JoinColumn(name="id_composer")
+	@JsonIgnore
 	private Creator creator2;
 
 	//bi-directional many-to-one association to Performer
 	@ManyToOne
 	@JoinColumn(name="id_performer")
+	@JsonIgnore
 	private Performer performer;
 
 	//bi-directional many-to-one association to SongHasGenre
 	@OneToMany(mappedBy="song")
+	@JsonIgnore
 	private List<SongHasGenre> songHasGenres;
 
 	//bi-directional many-to-one association to UrlLink
 	@OneToMany(mappedBy="song")
+	@JsonIgnore
 	private List<UrlLink> urlLinks;
 
 	public Song() {
