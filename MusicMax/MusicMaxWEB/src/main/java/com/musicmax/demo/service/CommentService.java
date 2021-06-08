@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.musicmax.demo.repository.ClientRepository;
 import com.musicmax.demo.repository.CommentRepository;
 import com.musicmax.demo.repository.ForumTopicRepository;
 import com.musicmax.demo.util.DateConverter;
@@ -28,7 +27,6 @@ public class CommentService {
 	
 	@Autowired
 	private ForumTopicRepository forumTopicRepository;
-	
 
 	@Autowired
 	private ClientParserService clientParserService;
