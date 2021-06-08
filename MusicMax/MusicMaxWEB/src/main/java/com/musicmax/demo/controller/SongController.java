@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,12 +38,12 @@ public class SongController {
 	}
 
 	@GetMapping(value = "/genre/{id}")
-	public List<Song> getSongsByGenre(String idGenreSTR) {
+	public List<Song> getSongsByGenre(@PathVariable(value = "id") String idGenreSTR) {
 		return songService.getSongsByGenre(idGenreSTR);
 	}
 
 	@GetMapping(value = "/author/{id}")
-	public List<Song> getSongsByAuthor(String authorID) {
+	public List<Song> getSongsByAuthor(@PathVariable(value = "id") String authorID) {
 		return songService.getSongsByAuthor(authorID);
 	}
 
@@ -75,5 +76,20 @@ public class SongController {
 	public ResponseEntity<?> getBestGradedSongLastMonth() {
 		return songService.getBestGradedSongLastMonth();
 	}
-	
+
+	@GetMapping(value = "/byComposerName")
+	public ResponseEntity<?> getSongsByComposerName(@RequestParam(value = "composer") String composer) {
+		return songService.getSongsByComposerName(composer);
+	}
+
+	@GetMapping(value = "/byAuthorName")
+	public ResponseEntity<?> getSongsByAuthorName(@RequestParam(value = "author") String author) {
+		return songService.getSongsByAuthorName(author);
+	}
+
+	@GetMapping(value = "/byPerformerName")
+	public ResponseEntity<?> getSongsByPerformerName(@RequestParam(value = "performer") String performer) {
+		return songService.getSongsByPerformerName(performer);
+	}
+
 }

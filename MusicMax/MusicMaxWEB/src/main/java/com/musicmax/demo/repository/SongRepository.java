@@ -33,5 +33,14 @@ public interface SongRepository extends JpaRepository<Song, Integer> {
 	public List<Song> findByPerformer(@Param("performer") Performer performer);
 
 	@Query("SELECT count(s) FROM SongHasGenre s WHERE s.genre = :genre")
-	public int getNumberOfSongsByGenre(@Param("genre") Genre genre);		
+	public int getNumberOfSongsByGenre(@Param("genre") Genre genre);
+	
+	@Query("SELECT s FROM Song s WHERE s.creator1.firstName LIKE :name")
+	public List<Song> getSongsByAuthorName(@Param("name") String name);
+	
+	@Query("SELECT s FROM Song s WHERE s.creator2.firstName LIKE :name")
+	public List<Song> getSongsByComposerName(@Param("name") String name);
+	
+	@Query("SELECT s FROM Song s WHERE s.performer.firstName LIKE :name OR s.performer.bandName LIKE :name")
+	public List<Song> getSongsByPerfomerName(@Param("name") String name);
 }

@@ -147,4 +147,19 @@ public class SongService {
 		return ResponseEntity.ok(bestGradedSong);
 	}
 
+	public ResponseEntity<?> getSongsByComposerName(String composer) {
+		List<Song> response = songRepository.getSongsByComposerName(composer);
+		return ResponseEntity.ok(response);
+	}
+
+	public ResponseEntity<?> getSongsByAuthorName(String author) {
+		List<Song> response = songRepository.getSongsByAuthorName(author);
+		return ResponseEntity.ok(response);
+	}
+
+	public ResponseEntity<?> getSongsByPerformerName(String performer) {
+		List<Song> response = songRepository.getSongsByPerfomerName(performer);
+		return ResponseEntity.ok(response);
+	}
+
 }
