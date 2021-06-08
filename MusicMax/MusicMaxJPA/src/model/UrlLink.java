@@ -3,6 +3,8 @@ package model;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the url_link database table.
@@ -29,6 +31,7 @@ public class UrlLink implements Serializable {
 	//bi-directional many-to-one association to Song
 	@ManyToOne
 	@JoinColumn(name="id_song")
+	@JsonIgnore
 	private Song song;
 
 	public UrlLink() {

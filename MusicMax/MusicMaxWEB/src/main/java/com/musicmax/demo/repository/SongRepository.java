@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import model.Creator;
+import model.Genre;
 import model.Performer;
 import model.Song;
 
@@ -30,4 +31,7 @@ public interface SongRepository extends JpaRepository<Song, Integer> {
 	
 	@Query("select s from Song s where s.performer = :performer")
 	public List<Song> findByPerformer(@Param("performer") Performer performer);
+
+	@Query("SELECT count(s) FROM SongHasGenre s WHERE s.genre = :genre")
+	public int getNumberOfSongsByGenre(@Param("genre") Genre genre);		
 }

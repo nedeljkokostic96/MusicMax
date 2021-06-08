@@ -1,11 +1,13 @@
 package com.musicmax.demo.controller;
 
 import java.util.List;
-import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.musicmax.demo.message.request.SongForm;
 import com.musicmax.demo.repository.SongRepository;
 import com.musicmax.demo.service.SongService;
 
@@ -43,7 +46,7 @@ public class SongController {
 		return songService.getSongsByAuthor(authorID);
 	}
 
-	@GetMapping()
+	@GetMapping(value = "/year")
 	public List<Song> getSongsByYear(@RequestParam(value = "year") String year) {
 		return songService.getSongsByYear(year);
 	}
@@ -53,7 +56,7 @@ public class SongController {
 		return songService.getSongsByPerformer(performerID);
 	}
 
-	@GetMapping()
+	@GetMapping(value = "/title")
 	public List<Song> getSongByTitle(@RequestParam(value = "title") String title) {
 		return songRepository.findByTitle("Give into me");
 	}
@@ -64,8 +67,8 @@ public class SongController {
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public Map<String, Object> saveSong(@RequestBody String json) {
-		return songService.saveSong(json);
+	public ResponseEntity<?> saveSong(@Valid @RequestBody SongForm data, HttpServletRequest request) {
+		return songService.saveSong(data, request);
 	}
 
 }

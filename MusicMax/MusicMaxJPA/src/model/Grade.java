@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 
 
@@ -26,11 +29,13 @@ public class Grade implements Serializable {
 
 	//bi-directional many-to-one association to Client
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="id_client")
 	private Client client;
 
 	//bi-directional many-to-one association to Song
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name="id_song")
 	private Song song;
 
