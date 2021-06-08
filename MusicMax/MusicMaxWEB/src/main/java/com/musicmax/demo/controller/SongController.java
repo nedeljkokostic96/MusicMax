@@ -59,7 +59,7 @@ public class SongController {
 
 	@GetMapping(value = "/title")
 	public List<Song> getSongByTitle(@RequestParam(value = "title") String title) {
-		return songRepository.findByTitle("Give into me");
+		return songRepository.findByTitle(title);
 	}
 
 	@GetMapping(value = "/composer/{id}")
