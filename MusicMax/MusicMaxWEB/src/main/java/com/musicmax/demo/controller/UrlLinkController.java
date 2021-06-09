@@ -32,7 +32,7 @@ public class UrlLinkController {
 		return fileService.getFileBySongId(id);
 	}
 	
-	@GetMapping(value = "/fun-facts/{id}")
+	@GetMapping(value = "/fun-fact/{id}")
 	public ResponseEntity<?> getFileByFunFactId(@PathVariable(value = "id") int id){
 		return fileService.getFileByFunFactId(id);
 	}
