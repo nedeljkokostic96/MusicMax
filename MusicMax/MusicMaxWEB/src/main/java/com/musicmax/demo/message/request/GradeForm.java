@@ -5,7 +5,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
-import org.springframework.beans.factory.annotation.Value;
 
 public class GradeForm {
 	@NotBlank

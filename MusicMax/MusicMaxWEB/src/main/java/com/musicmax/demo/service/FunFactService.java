@@ -23,7 +23,6 @@ public class FunFactService {
 	@Autowired
 	private ClientParserService clientParserService;
 
-	@SuppressWarnings("unchecked")
 	public ResponseEntity<?> saveFunFact(FunFactForm data, HttpServletRequest request) {
 
 		Client client = clientParserService.parseClientFromJWT(request);
