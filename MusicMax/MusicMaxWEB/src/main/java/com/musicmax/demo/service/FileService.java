@@ -31,6 +31,16 @@ public class FileService {
 
 	public final static String FILE_LOCATION = "D:/LocalServerStorage/";
 
+	public ResponseEntity<?> getFileBySongId(int id) {
+		UrlLink result = urlLinkRepository.getResourceBySong(id);
+		return ResponseEntity.ok(result);
+	}
+
+	public ResponseEntity<?> getFileByFunFactId(int id) {
+		UrlLink result = urlLinkRepository.getResourceByFunFact(id);
+		return ResponseEntity.ok(result);
+	}
+
 	public ResponseEntity<?> uploadFile(MultipartFile file, int id, boolean song) {
 
 		File convertFile = new File(FILE_LOCATION + file.getOriginalFilename());
@@ -39,8 +49,7 @@ public class FileService {
 			convertFile.createNewFile();
 			fileOutputStream = new FileOutputStream(convertFile);
 			fileOutputStream.write(file.getBytes());
-			boolean uploaded = saveFileLocation(FILE_LOCATION + file.getOriginalFilename(), id,
-					song);
+			boolean uploaded = saveFileLocation(FILE_LOCATION + file.getOriginalFilename(), id, song);
 			return ResponseEntity.ok("status : " + uploaded);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,9 +71,9 @@ public class FileService {
 		Song song = null;
 		FunFact funFact = null;
 		if (isSong) {
-			song = songRepository.findById(id).get();
+			song = songRepository.findById(id).orElse(null);
 		} else {
-			funFact = funFactRepository.findById(id).get();
+			funFact = funFactRepository.findById(id).orElse(null);
 		}
 		link.setSong(song);
 		link.setFunFact(funFact);
